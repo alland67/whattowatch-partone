@@ -1,0 +1,13 @@
+<ion-view view-title="Popular TV Shows" ng-controller="TvShowsCtrl as vm">
+  <ion-content class="has-header">
+    <div class="list">
+    	<div ng-repeat="tvshow in vm.tvshows.results">
+    		<img ng-src="https://image.tmdb.org/t/p/w92{{tvshow.poster_path}}"></img>
+    		<a class="item item-icon-right" href="#/tab/tvshow/{{tvshow.id}}">
+            	{{tvshow.name}}
+            	<i class="icon ion-chevron-right icon-accessory"></i>
+        	</a>
+    	</div>
+    </div>
+  </ion-content>
+</ion-view>

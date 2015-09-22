@@ -1,0 +1,15 @@
+<ion-view view-title="TV Show Details" ng-controller="TvshowDetailsCtrl as vm">
+  <ion-content class="has-header">
+    <div class="item">
+        <strong>{{vm.tvshowDetails.name}}</strong>
+        <h2>{{vm.tvshowDetails.first_air_date}}</h2>
+    </div>
+    <div>
+    	<img ng-src="https://image.tmdb.org/t/p/w92{{vm.tvshowDetails.poster_path}}"/>
+   	</div>
+   	<div>
+   		<span>{{vm.tvshowDetails.overview}}</span></br></br>
+   		<b>Avergae Vote:</b> {{vm.tvshowDetails.vote_average}}
+   	</div>
+  </ion-content>
+</ion-view>
