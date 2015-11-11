@@ -1,5 +1,7 @@
 <ion-view view-title="Popular TV Shows" ng-controller="TvShowsCtrl as vm">
   <ion-content class="has-header">
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="vm.doRefresh()">
+    </ion-refresher>
     <div class="list">
     	<div ng-repeat="tvshow in vm.tvshows.results">
     		<img ng-src="https://image.tmdb.org/t/p/w92{{tvshow.poster_path}}"></img>

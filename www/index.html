@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -18,19 +18,21 @@
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
+    <!-- Angular-Cache -->
+    <script src="lib/angular-cache/dist/angular-cache.min.js"></script>
+
     <!-- your app's js -->
     <script src="app/app.js"></script>
+    <script src="app/services/errorDisplayService.js"></script>
     <script src="app/services/movieService.js"></script>
+    <script src="app/services/dataService.js"></script>
     <script src="app/services/tvshowsService.js"></script>
     <script src="app/movies/movies-ctrl.js"></script>
     <script src="app/movies/movie-details-ctrl.js"></script>
     <script src="app/tvshows/tvshows-ctrl.js"></script>
     <script src="app/tvshows/tvshow-details-ctrl.js"></script>
-
-    <!--
-    <script src="js/controllers.js"></script>
-    <script src="js/services.js"></script>
-    -->
+    <script src="app/settings/settings-ctrl.js"></script>
+    
   </head>
   <body ng-app="whatToWatchApp">
     <!--

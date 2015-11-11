@@ -1,5 +1,18 @@
-<ion-view view-title="Settings">
+<ion-view cache-view="false" view-title="Settings" ng-controller="SettingsCtrl as vm">
   <ion-content class="padding">
-    <div>Settings Page</div>
+  	<form name="settingsForm" novalidate>
+	  	<div class="list">
+	    	<label class="item item-input">
+	  			<span class="input-label">Movie DB Key</span>
+	  			<input ng-model="vm.moviekey" type="text" placeholder="Enter Movie Key" required>
+			</label>
+		</div>
+		<div class="padding">
+			<p ng-show="settingsForm.$error.required">* Movie Key is required</p>
+		</div>
+		<div class="padding">
+			<button type="button" class="button button-block button-positive" ng-disabled="settingsForm.$invalid" ng-click="vm.submit(vm.moviekey)">Submit</button>
+		</div>
+	</form>
   </ion-content>
 </ion-view>

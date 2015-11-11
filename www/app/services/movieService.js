@@ -1,30 +1,49 @@
 (function () {
     'use strict';
 
-    angular.module('whatToWatchApp').factory('movieService', ['$http', '$q', movieService]);
+    angular.module('whatToWatchApp').factory('movieService', ['$http', '$q', 'dataService','CacheFactory', movieService]);
 
-    function movieService($http, $q) {
-        
-        var api_key = "?api_key=<your key>";
+    function movieService($http, $q, dataService, CacheFactory) {
+        var vm              = this;
+        vm.movieListCache   = CacheFactory.get("movieListCache");
 
         function getMovies() {
-            var url = "http://api.themoviedb.org/3/movie/",
-                mode = "popular",
-                data = "";
+            var url         = "http://api.themoviedb.org/3/movie/",
+            mode            = "popular",
+            data            = "",
+            furl            = "",
+            cacheKey        = "popularmovies",
+            popularMovies   = vm.movieListCache.get(cacheKey);
 
-        	var deferred = $q.defer();
-        	$http.get(url + mode + api_key)
-                    .success(function(data) {
-                        console.log("Received data via HTTP");
-                        
-                        console.log(data);
-                        
-                        deferred.resolve(data);
-                    })
-                    .error(function() {
-                        console.log("Error while making HTTP call.");
-                        deferred.reject();
-                    });
+            var api_key = "?api_key=";
+
+            var deferred = $q.defer();
+
+            if (popularMovies) {
+                console.log("Popular Movie Cache being used");
+                deferred.resolve(popularMovies);
+            }
+            else {
+                console.log("Popular Movie Cache not used");
+                dataService.getTheMovieDbKey()
+                .then( function(key) {
+                    var completeUrl = url + mode + (api_key+=key);
+                
+                    return completeUrl;
+                })
+                .then(function(completeUrl) {
+                
+                    return $http.get(completeUrl); 
+                })
+                .then( function(results) {
+                    vm.movieListCache.put(cacheKey,results.data);
+
+                    deferred.resolve(results.data);
+                })
+                .catch( function(data) {
+                    deferred.reject(data);
+                });
+            }
 
             return deferred.promise;
         }
@@ -34,16 +53,27 @@
                 mode = "",
                 data = movieId;
 
+            var api_key = "?api_key=";
+
             var deferred = $q.defer();
-            $http.get(url + data + api_key)
-                    .success(function(data) {
-                        console.log("Specific Movie found: " + data.original_title);
-                        deferred.resolve(data);
-                    })
-                    .error(function() {
-                        console.log("Error while making HTTP call.");
-                        deferred.reject();
-                    });
+
+            dataService.getTheMovieDbKey()
+            .then( function(key) {
+                var completeUrl = url + mode + data + (api_key+=key);
+                
+                return completeUrl;
+            })
+            .then(function(completeUrl) {
+                
+                return $http.get(completeUrl); 
+            })
+            .then( function(results) {
+                
+                deferred.resolve(results.data);
+            })
+            .catch( function(data) {
+                deferred.reject(data);
+            });
 
             return deferred.promise;
         }

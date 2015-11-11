@@ -1,6 +1,6 @@
-angular.module('whatToWatchApp', ['ionic'])
+angular.module('whatToWatchApp', ['ionic','angular-cache'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, CacheFactory) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -11,6 +11,9 @@ angular.module('whatToWatchApp', ['ionic'])
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
+
+    CacheFactory("movieListCache", {storageMode: "localStorage", maxAge: 60*60*24*1000, deleteOnExpire: "aggressive"});
+    CacheFactory("tvshowListCache", {storageMode: "localStorage", maxAge: 60*60*24*1000, deleteOnExpire: "aggressive"});
   });
 })
 
